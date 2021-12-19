@@ -1,39 +1,28 @@
-FROM gcc:9.4.0 AS compiler
-
-WORKDIR /src
-
-# copy 2hol source code into image
-COPY ./2hol ./
-
-# RUN ["git", "clone", "https://github.com/twohoursonelife/OneLife.git"]
-# RUN ["git", "clone", "https://github.com/twohoursonelife/OneLifeData7.git"]
-# RUN ["git", "clone", "https://github.com/twohoursonelife/minorGems.git"]
-
-# install compile-time dependencies
+# Setup compile environment
+FROM gcc:9.4.0 AS server_compiler
 RUN apt update
 RUN apt -y install libgl-dev libglu1-mesa-dev libsdl1.2-dev
 
-# build client and server
-RUN ./OneLife/scripts/pullAndBuildTestSystem.sh
+# Copy in 2hol source code and then build the server
+WORKDIR /src
+COPY ./2hol ./
+WORKDIR OneLife/server
+RUN ./configure 1 && make
 
-
-FROM debian:stable-slim
-
-WORKDIR /server
-
-# copy over compiled server
-COPY --from=compiler /src/OneLife/server ./
-
-# remove unwanted files
+# Cleanup / remove unwanted files
 RUN rm *.cpp *.h *.o *.dep2
 RUN rm configure Makefile* makeFileList
 RUN rm -r installYourOwnServer runServer.bat
 
-# copy over assets
-COPY --from=compiler /src/OneLifeData7/dataVersionNumber.txt ./
-COPY --from=compiler /src/OneLifeData7/categories ./categories
-COPY --from=compiler /src/OneLifeData7/objects ./objects
-COPY --from=compiler /src/OneLifeData7/transitions ./transitions
-COPY --from=compiler /src/OneLifeData7/tutorialMaps ./tutorialMaps
+# Move in required files
+RUN mv /src/OneLifeData7/dataVersionNumber.txt .
+RUN mv /src/OneLifeData7/objects .
+RUN mv /src/OneLifeData7/categories .
+RUN mv /src/OneLifeData7/transitions .
+RUN mv /src/OneLifeData7/tutorialMaps .
 
+# Move server into lean runtime environment
+FROM debian:stable-slim
+WORKDIR /server
+COPY --from=server_compiler /src/OneLife/server ./
 CMD ["./OneLifeServer"]

@@ -25,4 +25,5 @@ RUN mv /src/OneLifeData7/tutorialMaps .
 FROM debian:stable-slim
 WORKDIR /server
 COPY --from=server_compiler /src/OneLife/server ./
+EXPOSE 8005
 CMD ["./OneLifeServer"]

@@ -1,0 +1,7 @@
+version: '3.4'
+
+services:
+  2hol_game_server:
+    build: .
+    ports:
+      - 8005:8005

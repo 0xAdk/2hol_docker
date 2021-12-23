@@ -31,4 +31,5 @@ COPY ./docker_entrypoint.sh ./
 ENTRYPOINT ["./docker_entrypoint.sh"]
 
 EXPOSE 8005
+STOPSIGNAL SIGTSTP
 CMD ["./OneLifeServer"]

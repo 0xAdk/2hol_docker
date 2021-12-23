@@ -23,7 +23,12 @@ RUN mv /src/OneLifeData7/tutorialMaps .
 
 # Move server into lean runtime environment
 FROM debian:stable-slim
+
 WORKDIR /server
 COPY --from=server_compiler /src/OneLife/server ./
+
+COPY ./docker_entrypoint.sh ./
+ENTRYPOINT ["./docker_entrypoint.sh"]
+
 EXPOSE 8005
 CMD ["./OneLifeServer"]

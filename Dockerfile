@@ -38,6 +38,9 @@ RUN ln -sr ./categories_cache.fcz  /server/categories/cache.fcz
 RUN ln -sr ./objects_cache.fcz     /server/objects/cache.fcz
 RUN ln -sr ./transitions_cache.fcz /server/transitions/cache.fcz
 
+WORKDIR /server_data/log
+RUN ln -srt /server log.txt curseLog failureLog foodLog lifeLog mapChangeLogs
+
 WORKDIR /server
 COPY ./docker_entrypoint.sh ./
 ENTRYPOINT ["./docker_entrypoint.sh"]

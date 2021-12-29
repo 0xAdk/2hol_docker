@@ -8,3 +8,4 @@ services:
     volumes:
       - ./server_data/data:/server_data/data
       - ./server_data/cache:/server_data/cache
+      - ./server_data/log:/server_data/log

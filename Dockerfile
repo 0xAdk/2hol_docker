@@ -27,6 +27,12 @@ FROM debian:stable-slim
 WORKDIR /server
 COPY --from=server_compiler /src/OneLife/server ./
 
+# Create symlinks for databases
+WORKDIR /server_data/data
+RUN ln -srt /server curseCount.db curses.db playerStats.db lookTime.db eve.db biome.db map.db floor.db mapTime.db grave.db floorTime.db meta.db
+RUN ln -srt /server biomeRandSeed.txt curseSave.txt eveRadius.txt familyDataLog.txt mapDummyRecall.txt recentPlacements.txt
+
+WORKDIR /server
 COPY ./docker_entrypoint.sh ./
 ENTRYPOINT ["./docker_entrypoint.sh"]
 

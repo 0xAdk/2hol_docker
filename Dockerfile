@@ -32,6 +32,12 @@ WORKDIR /server_data/data
 RUN ln -srt /server curseCount.db curses.db playerStats.db lookTime.db eve.db biome.db map.db floor.db mapTime.db grave.db floorTime.db meta.db
 RUN ln -srt /server biomeRandSeed.txt curseSave.txt eveRadius.txt familyDataLog.txt mapDummyRecall.txt recentPlacements.txt
 
+# Create symlinks for cache
+WORKDIR /server_data/cache
+RUN ln -sr ./categories_cache.fcz  /server/categories/cache.fcz
+RUN ln -sr ./objects_cache.fcz     /server/objects/cache.fcz
+RUN ln -sr ./transitions_cache.fcz /server/transitions/cache.fcz
+
 WORKDIR /server
 COPY ./docker_entrypoint.sh ./
 ENTRYPOINT ["./docker_entrypoint.sh"]

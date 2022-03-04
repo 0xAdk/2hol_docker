@@ -27,6 +27,8 @@ mkdir -p $(readlink -f curseLog failureLog foodLog lifeLog mapChangeLogs)
 
 # make sure settings are exposed through the config directory
 redirect_to_config settings
+redirect_to_config lastNames.txt
+redirect_to_config firstNames.txt
 
 # make stdout and stderr line buffered
 exec stdbuf -oL -eL "$@"

@@ -34,6 +34,7 @@ COPY --from=server_compiler /src/OneLife/server ./
 # Create symlinks for databases
 WORKDIR /server_data/data
 RUN ln -srt /server \
+	'2HOL passwords.txt' \
 	biome.db \
 	biomeRandSeed.txt \
 	curseCount.db \

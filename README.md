@@ -35,8 +35,8 @@ $ docker run -d \
 
 ## with docker-compose
 
-The include docker-compose file will automatically build and start the image.
-As well as open port 8005.
+The included docker-compose file will automatically build and start the image.
+As well as open the server on port 8005.
 ```
 $ docker-compose up -d
 ```
